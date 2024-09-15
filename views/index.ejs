@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/public/assets/style.css" type="text/css">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body class="index-body">
+  <% if (user) {%>
+      <div class="header">
+        <h1>Members Only </h1>
+        <div class="welcome">
+          Welcome back, <%= user.username %>. 
+          <% if (!user.ismember) {%>
+            You are not a member, <a href="/join">click here to change that</a>
+           <%}%>
+           <a href="/log-out">Log Out</a>
+        </div>
+      </div>
+    
+      <form action="/post" method="get">
+        <button type="submit" class="create">Create Message</button>
+      </form>
+      <% messages.map((message) =>{%>
+        <div class="message">
+          <%if(user.ismember){ %>
+            <div class="minfo">
+              <h4><%= message.username %></h4>
+              <%= message.date %>
+            </div>
+          <%}else{ %>
+            <h4>anonymous</h4>
+          <% } %>
+          
+          <p><%= message.message %></p>
+
+          <%if(user.isadmin){ %>
+            <div>
+              <form action="http://localhost:5000/delete/<%=message.id%>" method="post">
+                <button type="submit" class="delete">Delete Message</button>
+              </form>
+            </div>
+          <% } %>
+        </div>
+     <% }) %>
+  <% } else { %>
+    <div class="header">
+      <h1>Members Only</h1>
+      <form action="/log-in" method="POST">
+        <div class="shit">
+          <div class="poop">
+            <input id="username" name="username" placeholder="username" type="text" />
+            <input id="password" name="password" type="password" />
+            <button>Log In</button>
+          </div>
+          
+          <div>
+            <a href="/sign-up">sign up</a>
+          </div>
+        </div>
+        
+      </form>
+    </div>
+    <div class="messages">
+      <% messages.map((message) =>{%>
+      <div class="message">
+        <h4>anonymous</h4>
+        <%= message.message %>
+      </div>
+   <% }) %>
+  </div>
+    
+  <%}%>
+</body>
+</html>
