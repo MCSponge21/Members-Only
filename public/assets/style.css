@@ -126,3 +126,9 @@
     height: 50px;
     border-radius: 10px;
 }
+
+.minput{
+    display: flex;
+    text-wrap: wrap;
+    height: 200px;
+}
